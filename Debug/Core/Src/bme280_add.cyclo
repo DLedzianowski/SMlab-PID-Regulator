@@ -1,5 +1,0 @@
-../Core/Src/bme280_add.c:17:8:BME280_init	3
-../Core/Src/bme280_add.c:57:7:BME280_read_temperature	2
-../Core/Src/bme280_add.c:65:6:delay_ms	1
-../Core/Src/bme280_add.c:69:8:i2c_read	1
-../Core/Src/bme280_add.c:75:8:i2c_write	1

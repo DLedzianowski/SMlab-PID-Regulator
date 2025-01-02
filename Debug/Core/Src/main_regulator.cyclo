@@ -1,4 +1,0 @@
-../Core/Src/main_regulator.c:13:6:PID_Init	1
-../Core/Src/main_regulator.c:34:8:PID_Compute	1
-../Core/Src/main_regulator.c:58:8:PI_Compute	1
-../Core/Src/main_regulator.c:91:8:saturation	3

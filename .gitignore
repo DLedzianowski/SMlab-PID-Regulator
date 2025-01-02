@@ -1,0 +1,6 @@
+.settings/
+Release/
+Debug/
+Drivers/
+Middlewares/
+.launch

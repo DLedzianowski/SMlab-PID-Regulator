@@ -2,7 +2,7 @@
  * main_regulator.h
  *
  *  Created on: Dec 29, 2024
- *      Author: idomi
+ *      Author: dominik
  */
 
 #ifndef INC_MAIN_REGULATOR_H_

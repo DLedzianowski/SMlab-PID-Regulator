@@ -2,7 +2,7 @@
  * main_regulator.c
  *
  *  Created on: Dec 29, 2024
- *      Author: idomi
+ *      Author: domink
  */
 
 

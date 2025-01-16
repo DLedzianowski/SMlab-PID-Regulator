@@ -34,19 +34,20 @@ void PID_Init(PID_TypeDef *pid, double Kp, double Ki, double Kd, double outputMi
 double PID_Compute(PID_TypeDef *pid, double setpoint, double measured_value) {
   double error = setpoint - measured_value;
 
-  double integral = pid->previntegral + (error + pid->prevError);  // Tustin
+  double integral = pid->previntegral + (error + pid->prevError) * (pid->dt/2);  // Tustin
+
   pid->previntegral = integral;
 
   double derivative = (error - pid->prevError) / pid->dt;
   // U
-  double output = pid->Kp * error + pid->Ki * integral * (pid->dt/2) + pid->Kd * derivative;
+  double output = pid->Kp * error + pid->Ki * integral + pid->Kd * derivative;
 
-	// Ograniczenie wyjscia (saturacia)
+  // Ograniczenie wyjscia (saturacia)
   double output_sat = saturation(output, pid->outputMin, pid->outputMax);
 
-	// Korekcja anty-windup
-	double anti_windup = pid->Kc_pid * (output_sat - output);
-	pid->previntegral += anti_windup;
+  // Korekcja anty-windup
+  double anti_windup = pid->Kc_pid * (output_sat - output);
+  pid->previntegral += anti_windup;
 
   pid->prevError = error;
 
@@ -56,18 +57,18 @@ double PID_Compute(PID_TypeDef *pid, double setpoint, double measured_value) {
 
 /* Funkcja obliczająca wyjście regulatora PI */
 double PI_Compute(PID_TypeDef *pid, double setpoint, double measured_value) {
-	// Hffr = 1/(kp/ki)s+1  filtr w torze sygnalu referencyjnego
-	float Yffr;
-	if(pid->Kp/pid->Ki > 0 && 0){  // jezeli jest stabilny
-	  Yffr = pid->a1 * setpoint + pid->a2 * pid->prevHffrYr + pid->b1 * pid->prevHffrYffr;
-	  pid->prevHffrYr = setpoint;
-	  pid->prevHffrYffr = Yffr;
-	}
-	else{
-		Yffr = setpoint;
-	}
+  // Hffr = 1/(kp/ki)s+1  filtr w torze sygnalu referencyjnego
+  float Yffr;
+  if(pid->Kp/pid->Ki > 0 && 0){  // jezeli jest stabilny
+    Yffr = pid->a1 * setpoint + pid->a2 * pid->prevHffrYr + pid->b1 * pid->prevHffrYffr;
+    pid->prevHffrYr = setpoint;
+    pid->prevHffrYffr = Yffr;
+  }
+  else{
+    Yffr = setpoint;
+  }
 
-	// PI regulator
+  // PI regulator
   double error = Yffr - measured_value;
   // Ki
   double integral = pid->previntegral + (error + pid->prevError) * (pid->dt/2);  // Tustin
@@ -75,12 +76,12 @@ double PI_Compute(PID_TypeDef *pid, double setpoint, double measured_value) {
   // U
   double output = pid->Kp * error + pid->Ki * integral;
 
-	// Ograniczenie wyjscia (saturacia)
+  // Ograniczenie wyjscia (saturacia)
   double output_sat = saturation(output, pid->outputMin, pid->outputMax);
 
-	// Korekcja anty-windup
-	double anti_windup = pid->Kc_pi * (output_sat - output);
-	pid->previntegral += anti_windup;
+  // Korekcja anty-windup
+  double anti_windup = pid->Kc_pi * (output_sat - output);
+  pid->previntegral += anti_windup;
 
   pid->prevError = error;
 
@@ -90,12 +91,12 @@ double PI_Compute(PID_TypeDef *pid, double setpoint, double measured_value) {
 
 double saturation(double output, double outputMin, double outputMax){
   double output_sat;
-	if (output > outputMax) {
-		output_sat = outputMax;
-	} else if (output < outputMin) {
-		output_sat = outputMin;
-	}else{
-		output_sat = output;
-	}
-	return output_sat;
+  if (output > outputMax) {
+    output_sat = outputMax;
+  } else if (output < outputMin) {
+    output_sat = outputMin;
+  }else{
+    output_sat = output;
+  }
+  return output_sat;
 }

@@ -2,6 +2,8 @@
 
 Regulator temperatury oparty na mikrokontrolerze STM32, obsługujący czujnik BME280, wyświetlacz OLED SSD1306 oraz tranzystor IRF520 do sterowania grzałką. Projekt zawiera implementację regulatora PID z funkcją anty-windup.  
 
+<img width="928" alt="uklad" src="https://github.com/user-attachments/assets/e5e01885-8022-4f11-ab16-0fceca54e26a" />
+
 ## Funkcje projektu  
 - **Pomiar temperatury**: Czujnik BME280 podłączony przez I2C.  
 - **Wyświetlanie danych**: Ekran OLED 0.91" SSD1306 obsługiwany przez I2C.  
@@ -17,3 +19,4 @@ Regulator temperatury oparty na mikrokontrolerze STM32, obsługujący czujnik BM
 - **Enkoder mechaniczny**: Obsługa zmiany wartości zadanej  
 - **Rezystor**: 10Ω, 10W jako element grzałki  
 - **Zasilacz**: 12V z ograniczeniem prądowym (800mA)  
+
